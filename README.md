@@ -173,6 +173,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 MIT License - see LICENSE file for details
 
+## 🔒 Privacy Policy
+
+Element Alert does not collect, store, or transmit any personal data to external servers. All data is stored locally on your device using Chrome's storage API.
+
+For full details, see our [Privacy Policy](PRIVACY_POLICY.md).
+
 ## 👤 Author
 
 Created by [Your Name](https://github.com/yourusername)
@@ -252,6 +258,12 @@ cd element-alert
 ## ライセンス
 
 MIT License
+
+## プライバシーポリシー
+
+Element Alertは個人データを外部サーバーに収集、保存、送信しません。すべてのデータはChromeのストレージAPIを使用してお使いのデバイス上にローカル保存されます。
+
+詳細は[プライバシーポリシー](PRIVACY_POLICY.md)をご覧ください。
 
 ## 作者
 
