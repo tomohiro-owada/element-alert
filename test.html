@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Element Alert - テストページ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #1a73e8;
+      margin-bottom: 30px;
+    }
+
+    .test-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .test-section h2 {
+      margin-top: 0;
+      color: #555;
+      font-size: 18px;
+    }
+
+    #price {
+      font-size: 24px;
+      font-weight: bold;
+      color: #f44336;
+      margin: 15px 0;
+    }
+
+    #counter {
+      font-size: 32px;
+      font-weight: bold;
+      color: #1a73e8;
+      margin: 15px 0;
+    }
+
+    #status {
+      font-size: 18px;
+      font-weight: 500;
+      color: #34a853;
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background-color: #1557b0;
+    }
+
+    .info {
+      background-color: #e3f2fd;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #1565c0;
+    }
+
+    .nested-container {
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .nested-content {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Element Alert - テストページ</h1>
+
+    <div class="test-section">
+      <h2>テスト1: 価格の変更</h2>
+      <div id="price">1,000円</div>
+      <button onclick="changePrice()">価格を変更</button>
+      <div class="info">
+        セレクタ: <code>#price</code><br>
+        このボタンをクリックすると価格が変わります。
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>テスト2: カウンター</h2>
+      <div id="counter">0</div>
+      <button onclick="incrementCounter()">カウントアップ</button>
+      <button onclick="startAutoCounter()">自動カウント開始</button>
+      <button onclick="stopAutoCounter()">自動カウント停止</button>
+      <div class="info">
+        セレクタ: <code>#counter</code><br>
+        1秒ごとに自動でカウントアップします。
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>テスト3: ステータス変更</h2>
+      <div id="status">待機中</div>
+      <button onclick="changeStatus()">ステータス変更</button>
+      <div class="info">
+        セレクタ: <code>#status</code><br>
+        ステータスがランダムに変わります。
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>テスト4: 子要素の変更</h2>
+      <div id="parent" class="nested-container">
+        <div class="nested-content">
+          親要素の内容
+          <div id="child">
+            <strong id="grandchild">孫要素: 初期値</strong>
+          </div>
+        </div>
+      </div>
+      <button onclick="changeChild()">子要素を変更</button>
+      <button onclick="changeGrandchild()">孫要素を変更</button>
+      <div class="info">
+        セレクタ: <code>#parent</code><br>
+        親要素を監視すると、子要素・孫要素の変更も検知されます。
+      </div>
+    </div>
+
+    <div class="test-section" style="background-color: #fff3cd; border-color: #ffc107;">
+      <h2>🔍 使い方</h2>
+      <ol style="line-height: 1.8;">
+        <li>Chrome拡張機能のアイコンをクリック</li>
+        <li>「要素を選択」ボタンをクリック</li>
+        <li>このページ上で監視したい要素（例: 価格、カウンターなど）をクリック</li>
+        <li>ポップアップを再度開いて「監視を有効にする」にチェック</li>
+        <li>「設定を保存」をクリック</li>
+        <li>上記のボタンをクリックして値を変更</li>
+        <li>デスクトップ通知が表示されるはず！</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    let counterValue = 0;
+    let autoCounterInterval = null;
+
+    function changePrice() {
+      const prices = ['1,000円', '1,500円', '2,000円', '2,500円', '3,000円'];
+      const priceElement = document.getElementById('price');
+      const currentPrice = priceElement.textContent;
+      const newPrice = prices[Math.floor(Math.random() * prices.length)];
+      priceElement.textContent = newPrice;
+      console.log(`価格を変更: ${currentPrice} → ${newPrice}`);
+    }
+
+    function incrementCounter() {
+      counterValue++;
+      document.getElementById('counter').textContent = counterValue;
+      console.log(`カウンター: ${counterValue}`);
+    }
+
+    function startAutoCounter() {
+      if (autoCounterInterval) return;
+      autoCounterInterval = setInterval(() => {
+        incrementCounter();
+      }, 1000);
+      console.log('自動カウント開始');
+    }
+
+    function stopAutoCounter() {
+      if (autoCounterInterval) {
+        clearInterval(autoCounterInterval);
+        autoCounterInterval = null;
+        console.log('自動カウント停止');
+      }
+    }
+
+    function changeStatus() {
+      const statuses = ['待機中', '処理中', '完了', 'エラー', '準備中'];
+      const statusElement = document.getElementById('status');
+      const currentStatus = statusElement.textContent;
+      const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+      statusElement.textContent = newStatus;
+      console.log(`ステータス変更: ${currentStatus} → ${newStatus}`);
+    }
+
+    function changeChild() {
+      const childElement = document.getElementById('child');
+      const timestamp = new Date().toLocaleTimeString();
+      childElement.innerHTML = `<strong id="grandchild">子要素が変更されました: ${timestamp}</strong>`;
+      console.log(`子要素を変更: ${timestamp}`);
+    }
+
+    function changeGrandchild() {
+      const grandchildElement = document.getElementById('grandchild');
+      const timestamp = new Date().toLocaleTimeString();
+      grandchildElement.textContent = `孫要素が変更されました: ${timestamp}`;
+      console.log(`孫要素を変更: ${timestamp}`);
+    }
+  </script>
+</body>
+</html>
